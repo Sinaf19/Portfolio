@@ -4,7 +4,12 @@ import type * as prismic from '@prismicio/client';
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
-type PageDocumentDataSlicesSlice = TechListSlice | BiographySlice | HeroSlice | RichTextSlice;
+type PageDocumentDataSlicesSlice =
+	| ExperienceSlice
+	| TechListSlice
+	| BiographySlice
+	| HeroSlice
+	| RichTextSlice;
 
 /**
  * Content for Page documents
@@ -306,6 +311,103 @@ type BiographySliceVariation = BiographySliceDefault;
 export type BiographySlice = prismic.SharedSlice<'biography', BiographySliceVariation>;
 
 /**
+ * Item in *Experience → Default → Primary → items*
+ */
+export interface ExperienceSliceDefaultPrimaryItemsItem {
+	/**
+	 * title field in *Experience → Default → Primary → items*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: experience.default.primary.items[].title
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	title: prismic.KeyTextField;
+
+	/**
+	 * time period field in *Experience → Default → Primary → items*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: experience.default.primary.items[].time_period
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	time_period: prismic.KeyTextField;
+
+	/**
+	 * institution field in *Experience → Default → Primary → items*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: experience.default.primary.items[].institution
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	institution: prismic.KeyTextField;
+
+	/**
+	 * description field in *Experience → Default → Primary → items*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: experience.default.primary.items[].description
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	description: prismic.RichTextField;
+}
+
+/**
+ * Primary content in *Experience → Default → Primary*
+ */
+export interface ExperienceSliceDefaultPrimary {
+	/**
+	 * Heading field in *Experience → Default → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: experience.default.primary.heading
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	heading: prismic.KeyTextField;
+
+	/**
+	 * items field in *Experience → Default → Primary*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: experience.default.primary.items[]
+	 * - **Documentation**: https://prismic.io/docs/field#group
+	 */
+	items: prismic.GroupField<Simplify<ExperienceSliceDefaultPrimaryItemsItem>>;
+}
+
+/**
+ * Default variation for Experience Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type ExperienceSliceDefault = prismic.SharedSliceVariation<
+	'default',
+	Simplify<ExperienceSliceDefaultPrimary>,
+	never
+>;
+
+/**
+ * Slice variation for *Experience*
+ */
+type ExperienceSliceVariation = ExperienceSliceDefault;
+
+/**
+ * Experience Shared Slice
+ *
+ * - **API ID**: `experience`
+ * - **Description**: Experience
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type ExperienceSlice = prismic.SharedSlice<'experience', ExperienceSliceVariation>;
+
+/**
  * Primary content in *Hero → Default → Primary*
  */
 export interface HeroSliceDefaultPrimary {
@@ -486,83 +588,6 @@ type TechListSliceVariation = TechListSliceDefault;
  */
 export type TechListSlice = prismic.SharedSlice<'tech_list', TechListSliceVariation>;
 
-/**
- * Item in *TechListNew → Default → Primary → Tech list*
- */
-export interface TechListNewSliceDefaultPrimaryTechListItem {
-	/**
-	 * tech name field in *TechListNew → Default → Primary → Tech list*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: tech_list_new.default.primary.tech_list[].tech_name
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */
-	tech_name: prismic.KeyTextField;
-
-	/**
-	 * tech color field in *TechListNew → Default → Primary → Tech list*
-	 *
-	 * - **Field Type**: Color
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: tech_list_new.default.primary.tech_list[].tech_color
-	 * - **Documentation**: https://prismic.io/docs/field#color
-	 */
-	tech_color: prismic.ColorField;
-}
-
-/**
- * Primary content in *TechListNew → Default → Primary*
- */
-export interface TechListNewSliceDefaultPrimary {
-	/**
-	 * Heading field in *TechListNew → Default → Primary*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: tech_list_new.default.primary.heading
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */
-	heading: prismic.KeyTextField;
-
-	/**
-	 * Tech list field in *TechListNew → Default → Primary*
-	 *
-	 * - **Field Type**: Group
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: tech_list_new.default.primary.tech_list[]
-	 * - **Documentation**: https://prismic.io/docs/field#group
-	 */
-	tech_list: prismic.GroupField<Simplify<TechListNewSliceDefaultPrimaryTechListItem>>;
-}
-
-/**
- * Default variation for TechListNew Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type TechListNewSliceDefault = prismic.SharedSliceVariation<
-	'default',
-	Simplify<TechListNewSliceDefaultPrimary>,
-	never
->;
-
-/**
- * Slice variation for *TechListNew*
- */
-type TechListNewSliceVariation = TechListNewSliceDefault;
-
-/**
- * TechListNew Shared Slice
- *
- * - **API ID**: `tech_list_new`
- * - **Description**: TechListNew
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type TechListNewSlice = prismic.SharedSlice<'tech_list_new', TechListNewSliceVariation>;
-
 declare module '@prismicio/client' {
 	interface CreateClient {
 		(
@@ -584,6 +609,11 @@ declare module '@prismicio/client' {
 			BiographySliceDefaultPrimary,
 			BiographySliceVariation,
 			BiographySliceDefault,
+			ExperienceSlice,
+			ExperienceSliceDefaultPrimaryItemsItem,
+			ExperienceSliceDefaultPrimary,
+			ExperienceSliceVariation,
+			ExperienceSliceDefault,
 			HeroSlice,
 			HeroSliceDefaultPrimary,
 			HeroSliceVariation,
@@ -596,12 +626,7 @@ declare module '@prismicio/client' {
 			TechListSliceDefaultPrimaryItemsItem,
 			TechListSliceDefaultPrimary,
 			TechListSliceVariation,
-			TechListSliceDefault,
-			TechListNewSlice,
-			TechListNewSliceDefaultPrimaryTechListItem,
-			TechListNewSliceDefaultPrimary,
-			TechListNewSliceVariation,
-			TechListNewSliceDefault
+			TechListSliceDefault
 		};
 	}
 }
